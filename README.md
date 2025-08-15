@@ -2,6 +2,8 @@
 
 An Excel Add-in for creating the MyCV Users and Reviewers CSV import files for the annual FAR cycle. Validates BUIDs before creating the files.
 
+Creates a Menu on your Home tab in Excel:
+
 <div align="center">
 <img src="images/Menu.png" alt="Screenshot"  width="250">
 </div>
