@@ -23,11 +23,13 @@ namespace MyCVToolkit
             try
             {
                 object[,] columnValues = rangeToProcess.Value2 as object[,];
+                if (columnValues == null) return finalBuidList;
 
-                HashSet<string> buidsToCheck = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                List<string> allBuids = new List<string>();
                 Dictionary<int, string> rowToBuidMap = new Dictionary<int, string>();
+                HashSet<string> buidsForDbCheck = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-                // Collect all distinct BUIDs
+                // Collect all BUIDs (keep duplicates)
                 for (int i = 1; i <= columnValues.GetLength(0); i++)
                 {
                     object cellValueObj = columnValues[i, 1];
@@ -36,23 +38,24 @@ namespace MyCVToolkit
                         string buid = cellValueObj.ToString().Trim();
                         if (buid.StartsWith("U", StringComparison.OrdinalIgnoreCase))
                         {
-                            buidsToCheck.Add(buid);
+                            allBuids.Add(buid);
                             rowToBuidMap[i] = buid;
+                            buidsForDbCheck.Add(buid); // Only distinct values for DB
                         }
                     }
                 }
 
-                if (buidsToCheck.Count == 0)
+                if (allBuids.Count == 0)
                 {
                     MessageBox.Show("No BUIDs found.", "Check Complete",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return finalBuidList;
                 }
 
-                // Get all existing BUIDs from DB
-                HashSet<string> existingBuids = GetExistingBUIDsFromDB(buidsToCheck);
+                // Get existing BUIDs from DB (only distinct set)
+                HashSet<string> existingBuids = GetExistingBUIDsFromDB(buidsForDbCheck);
 
-                // Track missing ones
+                // Track missing
                 List<string> missingBuids = new List<string>();
 
                 foreach (var kvp in rowToBuidMap)
@@ -62,21 +65,27 @@ namespace MyCVToolkit
                         Excel.Range cell = (Excel.Range)rangeToProcess.Cells[kvp.Key, 1];
                         cell.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
                         missingBuids.Add(kvp.Value);
+
+                        // Scroll to and select the cell
+                        cell.Application.Goto(cell, true);
                     }
                 }
 
-                // Check if missing
+                // Final result (duplicates kept)
                 if (missingBuids.Count == 0)
                 {
-                    finalBuidList = buidsToCheck.ToList();
+                    finalBuidList = allBuids; // Keeps duplicates & order
                 }
                 else
                 {
-                  MessageBox.Show("Some BUIDs were not found (Highlighted in yellow). If you can't find the correct one, delete or replace it so it doesn't start with a 'U' and re-run it for the same range.", "Check Complete",
-                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "Some BUIDs were not found (highlighted in yellow). " +
+                        "If you can't find the correct one, delete or replace it so it doesn't start with 'U' and re-run.",
+                        "Check Complete",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
 
-                  // Clear
-                  finalBuidList.Clear();
+                    finalBuidList.Clear();
                 }
             }
             catch (Exception ex)
@@ -87,6 +96,7 @@ namespace MyCVToolkit
 
             return finalBuidList;
         }
+
 
         // Check the reporting database
         private static HashSet<string> GetExistingBUIDsFromDB(HashSet<string> buids)

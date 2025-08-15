@@ -39,6 +39,8 @@
             this.BtnSettings = this.Factory.CreateRibbonButton();
             this.BtnUsersCSV = this.Factory.CreateRibbonButton();
             this.BtnReviewersCSV = this.Factory.CreateRibbonButton();
+            this.BtnUsers = this.Factory.CreateRibbonSplitButton();
+            this.BtnSearch = this.Factory.CreateRibbonButton();
             this.Home.SuspendLayout();
             this.MyCVGroup.SuspendLayout();
             this.SuspendLayout();
@@ -54,8 +56,8 @@
             // MyCVGroup
             // 
             this.MyCVGroup.Items.Add(this.BtnSettings);
-            this.MyCVGroup.Items.Add(this.BtnUsersCSV);
-            this.MyCVGroup.Items.Add(this.BtnReviewersCSV);
+            this.MyCVGroup.Items.Add(this.BtnSearch);
+            this.MyCVGroup.Items.Add(this.BtnUsers);
             this.MyCVGroup.Label = "MyCV FAR";
             this.MyCVGroup.Name = "MyCVGroup";
             // 
@@ -79,9 +81,26 @@
             // 
             this.BtnReviewersCSV.Label = "Create &Reviewers";
             this.BtnReviewersCSV.Name = "BtnReviewersCSV";
-            this.BtnReviewersCSV.OfficeImageId = "ShowFrom";
+            this.BtnReviewersCSV.OfficeImageId = "QuickSearchNotToCcMe";
             this.BtnReviewersCSV.ShowImage = true;
             this.BtnReviewersCSV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnReviewersCSV_Click);
+            // 
+            // BtnUsers
+            // 
+            this.BtnUsers.Items.Add(this.BtnUsersCSV);
+            this.BtnUsers.Items.Add(this.BtnReviewersCSV);
+            this.BtnUsers.Label = "Import File";
+            this.BtnUsers.Name = "BtnUsers";
+            this.BtnUsers.OfficeImageId = "Head";
+            this.BtnUsers.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnUsers_Click);
+            // 
+            // BtnSearch
+            // 
+            this.BtnSearch.Label = "Search User";
+            this.BtnSearch.Name = "BtnSearch";
+            this.BtnSearch.OfficeImageId = "InstantSearch";
+            this.BtnSearch.ShowImage = true;
+            this.BtnSearch.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnSearch_Click);
             // 
             // Ribbon1
             // 
@@ -104,6 +123,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton BtnSettings;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton BtnUsersCSV;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton BtnReviewersCSV;
+        internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton BtnUsers;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton BtnSearch;
     }
 
     partial class ThisRibbonCollection

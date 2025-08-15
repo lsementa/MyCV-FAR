@@ -16,6 +16,13 @@ namespace MyCVToolkit
             form1.ShowDialog();
         }
 
+
+        // Import File (Main split butotn)
+        private void BtnUsers_Click(object sender, RibbonControlEventArgs e)
+        {
+            Functions.CreateUsersList();
+        }
+
         // Create Users list
         private void BtnUsersCSV_Click(object sender, RibbonControlEventArgs e)
         {
@@ -26,6 +33,13 @@ namespace MyCVToolkit
         private void BtnReviewersCSV_Click(object sender, RibbonControlEventArgs e)
         {
             Functions.CreateReviewersList();
+        }
+
+        // Search User
+        private void BtnSearch_Click(object sender, RibbonControlEventArgs e)
+        {
+            SearchForm form = new SearchForm();
+            form.ShowDialog();
         }
     }
 }
