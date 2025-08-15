@@ -5,7 +5,7 @@ An Excel Add-in for creating the MyCV Users and Reviewers CSV import files for t
 Creates a menu on your **Home** tab in Excel:
 
 <div align="center">
-<img src="images/Menu.png" alt="Screenshot"  width="250">
+<img src="images/Menu.png" alt="Screenshot"  width="200">
 </div>
 
 ---
