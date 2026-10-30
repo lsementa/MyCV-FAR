@@ -310,5 +310,53 @@ namespace MyCVToolkit
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        // Check proposals for blank submission date
+        public static void CheckProposals()
+        {
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+            Excel.Workbook activeWorkbook = excelApp.ActiveWorkbook;
+            if (activeWorkbook == null)
+                return;
+
+            // Make sure we're on the mycv_grants worksheet
+            if (!(activeWorkbook.ActiveSheet is Excel.Worksheet ws) ||
+                !string.Equals(ws.Name, "mycv_grants", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("This check only runs on the mycv_grants sheet. Open the correct CSV file.",
+                    "Check Proposals", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Clear any existing filter so criteria don't stack on top of old ones
+            if (ws.AutoFilterMode)
+                ws.AutoFilterMode = false;
+
+            // Build the filter range from A1 to the last used row, at least through column L
+            Excel.Range used = ws.UsedRange;
+            int lastRow = used.Row + used.Rows.Count - 1;
+            int lastCol = Math.Max(12, used.Column + used.Columns.Count - 1);
+            Excel.Range filterRange = ws.Range[ws.Cells[1, 1], ws.Cells[lastRow, lastCol]];
+
+            // Column A: IDs ending in _PROP
+            filterRange.AutoFilter(1, "*_PROP",
+                Excel.XlAutoFilterOperator.xlAnd, Type.Missing, true);
+
+            // Column L: blank OR 1/1/1900 (date serial 1, so "<2" catches it)
+            filterRange.AutoFilter(12, "=",
+                Excel.XlAutoFilterOperator.xlOr, "<2", true);
+
+            // Count visible cells in column A of the filter range (header included)
+            Excel.Range visibleCells = ((Excel.Range)filterRange.Columns[1])
+                .SpecialCells(Excel.XlCellType.xlCellTypeVisible);
+
+            if (visibleCells.Count <= 1)
+            {
+                ws.AutoFilterMode = false;
+                MessageBox.Show("There are no blank or 1/1/1900 proposal submission dates.",
+                    "Check Proposals", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
     }
 }

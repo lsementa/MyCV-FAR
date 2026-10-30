@@ -1,6 +1,14 @@
 # MyCV-FAR
 
-An Excel Add-in for creating the MyCV Users and Reviewers CSV import files for the annual FAR cycle. Validates BUIDs before creating the files.
+An Excel Add-in designed to streamline the preparation and validation of import files for the annual Faculty Activity Reporting (FAR) cycle in the MyCV system.
+
+## Features
+
+- **MyCV User Search:** Search for and verify users within the MyCV system.
+- **BUID Validation:** Validate BUIDs before generating import files to help ensure accurate user and reviewer records.
+- **User Import File Generation:** Create the MyCV Users CSV import file required for the annual FAR cycle.
+- **Reviewer Import File Generation:** Create the MyCV Reviewers CSV import file.
+- **Grant Submission Date Validation:** Check the grants import file for missing or blank proposal submission dates and identify records that need attention before importing.
 
 Creates a menu on your **Home** tab in Excel:
 

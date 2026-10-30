@@ -41,5 +41,11 @@ namespace MyCVToolkit
             SearchForm form = new SearchForm();
             form.ShowDialog();
         }
+
+        // Check Proposals
+        private void BtnCheckProposals_Click(object sender, RibbonControlEventArgs e)
+        {
+            Functions.CheckProposals();
+        }
     }
 }

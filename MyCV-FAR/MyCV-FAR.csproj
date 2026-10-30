@@ -286,7 +286,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C9047AA45B34146400DF38B96C2BB054DAF3D701</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8C26B2B5F862250F59D105721CB0B2395E874A81</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
